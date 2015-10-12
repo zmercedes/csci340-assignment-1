@@ -1,5 +1,6 @@
 /*
  * CPU.h
+ * Keeps track of ready queue and device queues in a single object. 
  * Zoilo Mercedes	
  */
 #ifndef CPU_H

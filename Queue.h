@@ -45,6 +45,7 @@ class Queue {
       tail->prev = nullptr;
       tail = tmp;
       size--;
+      return true;
     }
 
     return false; // empty queue
