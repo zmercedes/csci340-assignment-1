@@ -1,4 +1,14 @@
 Zoilo Mercedes
 CSCI340 Assignment 1 README
 
-g++ -std=c++11 CPUdriver.cpp -o run.me is all you need to run this program. after the sysgen section, you will get a hash prompt " # " in which you can input the commands A, t, d1, p1, etc. Some error catching was done. 
+g++ -std=c++11 CPUdriver.cpp -o run.me is all you need to run this program. 
+
+Running the program will make it enter sysgen section, where it will ask for the number of disks, CD/RWs, and printers you'd like to add; the maximum per device is 10. After this, you will get a hash prompt " # " in which you can input the commands 
+
+A: generates a new process and moves it into the ready queue.
+t: terminates process in the cpu.
+d#, c#, p#: # being some number 1-10, lower case letters represent the process generating a process in a device (disk, printer, CD/RW) which was specified during the sysgen.
+D#, C#, P#: upper case letters represent an interrupt from the device which has a process in it. This process is moved to the ready queue.
+S: uppercase S requests a snapshot of a device which you specify (prints all the processes the device has in its queue.)
+
+All queues are FIFO. 
