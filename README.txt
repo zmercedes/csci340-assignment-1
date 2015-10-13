@@ -11,4 +11,4 @@ d#, c#, p#: # being some number 1-10, lower case letters represent the process g
 D#, C#, P#: upper case letters represent an interrupt from the device which has a process in it. This process is moved to the ready queue.
 S: uppercase S requests a snapshot of a device which you specify (prints all the processes the device has in its queue.)
 
-All queues are FIFO. 
+When a process reaches the ready queue, if the CPU is not currently running a process, the cpu will accept the next incoming process from the ready queue. All queues are FIFO. 
