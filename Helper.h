@@ -4,7 +4,7 @@
  */
 #ifndef HELPER_H
 #define HELPER_H
-#define <string>
+#include <string>
 
 const int MAX = 10;
 
