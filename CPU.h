@@ -46,9 +46,9 @@ class CPU {
     std::cout << " ### SYSGEN successful.\n";
   }
 
-  ~CPU(){
+/*  ~CPU(){
     // stuff goes here?
-  }
+  }*/
 
   void systemCall(){ // disgustingly long
     int n;
@@ -71,6 +71,7 @@ class CPU {
         PCB* tmp = new PCB{PID,"root",0,"rw","-"};
         RQ.enq(tmp);
         tmp = nullptr;
+        std::cout<< " ### Process ready.\n";
         PID++;
       }
       break;
@@ -170,7 +171,7 @@ class CPU {
     std::cout<< "  ## Please select r,d,c,p: ";
     std::cin>> s;
     std::cout << "PID" << std::setw(12) <<"Filename"<<std::setw(12)<< "Memstart"
-              <<std::setw(12)<< "R/W" <<std::setw(12)<< "File Length\n";
+              <<std::setw(11)<< "R/W" <<std::setw(14)<< "File Length\n";
     if(s=='r')
       std::cout<< RQ;
     else if(s=='d')
