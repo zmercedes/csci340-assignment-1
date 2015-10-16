@@ -86,58 +86,76 @@ class CPU {
       if(current==nullptr){
         std::cout<< " ### No process to call disks.\n";
         break;
-      } else if(in.length()<2 && isdigit(in[1])){
-        std::cout<< " ### Need a valid input.\n";
-        break;
+      } else if(n > disks.devices()){
+      	std::cout<< " ### This device doesn't exist.\n";
+      	break;
       }
-      disks.insert(n,PID);
+      if(disks.insert(n,PID,current))
+     	std::cout<< " ### Device updated.\n";
+      else
+     	std::cout<< " ### Error updating device.\n";
+      current = nullptr;
       PID++;
       break;
     case 'c':
       if(current==nullptr){
         std::cout<< " ### No process to call CD/RW.\n";
         break;
+      } else if(n > cdrw.devices()){
+      	std::cout<< " ### This device doesn't exist.\n";
+      	break;
       }
-      cdrw.insert(n,PID);
+      if(cdrw.insert(n,PID,current))
+     	std::cout<< " ### Device updated.\n";
+      else
+     	std::cout<< " ### Error updating device.\n";
+      current = nullptr;
       PID++;
       break;
     case 'p':
       if(current==nullptr){
         std::cout<< " ### No process to call printers.\n";
         break;
+      } else if(n > printers.devices()){
+      	std::cout<< " ### This device doesn't exist.\n";
+      	break;
       }
-      printers.insert(n,PID);
+      if(printers.insert(n,PID,current))
+     	std::cout<< " ### Device updated.\n";
+      else
+     	std::cout<< " ### Error updating device.\n";
+      current = nullptr;
       PID++;
       break;
     case 'D':
-      if(current==nullptr){ // checks for process in cpu
-        std::cout<< " ### No process to call disks.\n";
-        break;
-      } else if(disks.qPeek(n)==nullptr){ // checks if device queue is empty
+      if(disks.qPeek(n)==nullptr){ // checks if device queue is empty
         std::cout<< " ### This device is empty.\n";
         break;
+      } else if(n > disks.devices()){
+      	std::cout<< " ### This device doesn't exist.\n";
+      	break;
       }
       RQ.enq(disks.moveToReady(n));
       std::cout<< " ### Process in " << in << " is ready.\n";
       break;
     case 'C':
-      if(current==nullptr){ // checks for process in cpu
-        std::cout<< " ### No process to call CD/RW.\n";
-        break;
-      } else if(disks.qPeek(n)==nullptr){ // checks if device queue is empty
+      if(cdrw.qPeek(n)==nullptr){ // checks if device queue is empty
         std::cout<< " ### This device is empty.\n";
         break;
+      } else if(n > cdrw.devices()){
+      	std::cout<< " ### This device doesn't exist.\n";
+      	break;
       }
       RQ.enq(cdrw.moveToReady(n));
       std::cout<< " ### Process in " << in << " is ready.\n";
       break;
     case 'P':
-      if(current==nullptr){ // checks for process in cpu
-        std::cout<< " ### No process to call printers.\n";
-        break;
-      } else if(disks.qPeek(n)==nullptr){ // checks if device queue is empty
+      if(printers.qPeek(n)==nullptr){ // checks if device queue is empty
         std::cout<< " ### This device is empty.\n";
         break;
+      } else if(n > printers.devices()){
+      	std::cout<< " ### This device doesn't exist.\n";
+      	break;
       }
       RQ.enq(printers.moveToReady(n));
       std::cout<< " ### Process in " << in << " is ready.\n";
@@ -154,6 +172,7 @@ class CPU {
   void terminate(){
     delete current;
     current = nullptr;
+    std::cout<< " ### Process in CPU has been terminated.\n";
   }
 
   void cpuStatus(){

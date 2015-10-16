@@ -20,26 +20,27 @@ public:
     theQs.resize(t);
   }
 
-  bool insert(int q, int p){
-    std::string fn,rw,length = "-";
-    int mem;
+  const int devices(){
+  	return total;
+  }
+
+  bool insert(int q, int p, PCB* cpu){ // move pcb in cpu to device queue
     std::cout << " What is the file name? ";
-    std::cin >> fn;
+    std::cin >> cpu->mm;
     std::cout << " What memory location? ";
-    std::cin >> mem;
+    std::cin >> cpu->state;
     if(prefix == 'p')
-      rw = "w";
+      cpu->ofl = "w";
     else {
       std::cout << " Read/write? ";
-      std::cin >> rw;
+      std::cin >> cpu->ofl;
     }
-    if(rw=="w"){
+    if(cpu->ofl=="w" || cpu->ofl=="rw"){
       std::cout<< " How long is the file? ";
-      std::cin >> length;
+      std::cin >> cpu->unique;
     }
 
-    PCB* tmp = new PCB{p,fn,mem,rw,length};
-    return theQs[q-1].enq(tmp);
+    return theQs[q-1].enq(cpu);
   }
 
   PCB* qPeek(int q){
