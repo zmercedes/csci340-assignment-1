@@ -25,18 +25,17 @@ public:
   }
 
   bool insert(int q, int p, PCB* cpu){ // move pcb in cpu to device queue
-    std::cout << " What is the file name? ";
+    std::cout << "  ## What is the file name? ";
     std::cin >> cpu->mm;
-    std::cout << " What memory location? ";
-    std::cin >> cpu->state;
+    cpu->state = inputInt(999999,"  ## What memory location? ");
     if(prefix == 'p')
       cpu->ofl = "w";
     else {
-      std::cout << " Read/write? ";
+      std::cout << "  ## Read/write? ";
       std::cin >> cpu->ofl;
     }
     if(cpu->ofl=="w" || cpu->ofl=="rw"){
-      std::cout<< " How long is the file? ";
+      std::cout<< "  ## How long is the file? ";
       std::cin >> cpu->unique;
     }
 

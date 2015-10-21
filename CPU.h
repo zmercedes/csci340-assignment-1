@@ -12,35 +12,14 @@ class CPU {
  CPU(): PID{0}, current{nullptr} {
     int n;
     std::cout << "#### Welcome to zOS. #### \n"
-        << " ### SYSGEN ###\n"
-              << "  ## How many disks? ";
-    std::cin >> n;
-    while(n>MAX){
-      std::cout << "  ## The max number of any device is 10.\n"
-          << "  ## Please disconnect some devices.\n"
-                << "  ## How many disks? ";
-      std::cin >> n;
-    }
+        << " ### SYSGEN ###\n";
+    n = inputInt(MAX,"  ## How many disks? ");
     disks.init('d',n);
 
-    std::cout << "  ## How many CD/RW? ";
-    std::cin >> n;
-    while(n>MAX){
-      std::cout << "  ## The max number of any device is 10.\n"
-          << "  ## Please disconnect some devices.\n"
-                << "  ## How many CD/RW? ";
-      std::cin >> n;
-    }
+    n = inputInt(MAX,"  ## How many CD/RW? ");
     cdrw.init('c',n);
 
-    std::cout << "  ## How many printers? ";
-    std::cin >> n;
-    while(n>MAX){
-      std::cout << "  ## The max number of any device is 10.\n"
-          << "  ## Please disconnect some devices.\n"
-                << "  ## How many disks? ";
-      std::cin >> n;
-    }
+    n = inputInt(MAX,"  ## How many printers? ");
     printers.init('p',n);
 
     std::cout << " ### SYSGEN successful.\n";
@@ -95,7 +74,6 @@ class CPU {
       else
      	std::cout<< " ### Error updating device.\n";
       current = nullptr;
-      PID++;
       break;
     case 'c':
       if(current==nullptr){
@@ -110,7 +88,6 @@ class CPU {
       else
      	std::cout<< " ### Error updating device.\n";
       current = nullptr;
-      PID++;
       break;
     case 'p':
       if(current==nullptr){
@@ -125,7 +102,6 @@ class CPU {
       else
      	std::cout<< " ### Error updating device.\n";
       current = nullptr;
-      PID++;
       break;
     case 'D':
       if(disks.qPeek(n)==nullptr){ // checks if device queue is empty

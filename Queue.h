@@ -4,10 +4,10 @@
  */
 #ifndef QUEUE_H
 #define QUEUE_H
-#include <iostream>
 #include <iomanip>
 #include "Helper.h"
 
+// template <typename obj>
 class Queue {
  public:
  Queue(): head {nullptr}, tail {nullptr}, size{0} {}
