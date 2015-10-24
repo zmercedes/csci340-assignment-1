@@ -31,7 +31,7 @@ int inputInt(int max, std::string prompt){
 		std::cout<<prompt;
 		std::cin>>input;
 
-		if(isdigit(input[0]))
+		if(isdigit(input[0]) && input.length() < 9)
 			outInt = std::stoi(input);
 		else{
 			std::cout<<" ### Invalid input.\n";
