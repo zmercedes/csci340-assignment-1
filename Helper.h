@@ -16,11 +16,17 @@ struct PCB{
   int state;
   std::string ofl;
   std::string unique;
+  int cylinder;
+  float cpuTime;
+  int totalCpu;
+
   PCB* next;
   PCB* prev;
 
+
   PCB(int p, std::string m, int s, std::string o, std::string u)
-  : pid{p}, mm{m}, state{s}, ofl{o}, unique{u}, next{nullptr}, prev{nullptr} {}
+  : pid{p}, mm{m}, state{s}, ofl{o}, unique{u}, cylinder{0}, cpuTime{0}, totalCpu{0},
+    next{nullptr}, prev{nullptr} {}
 };
 
 int inputInt(int max, std::string prompt){
@@ -38,7 +44,7 @@ int inputInt(int max, std::string prompt){
 			continue;
 		}
 
-		if(outInt < max)
+		if(outInt <= max)
 			return outInt;
 		else
 			std::cout<< " ### Number too large. (Max is " << max << ")\n";
