@@ -10,7 +10,7 @@
 
 class CPU {
 public:
- CPU(): PID{0}, current{nullptr}, systemTime{0}, systemTotal{0} {
+ CPU(): PID{0}, current{nullptr}, systemTime{0}, systemTotal{0} { // sysgen 
     int n;
     std::cout << "#### Welcome to zOS. #### \n"
               << " ### SYSGEN ###\n";
@@ -163,7 +163,18 @@ public:
     return cpuStatus();
   }
 
-  void terminate(){
+ private:
+  DevQ<FSdisk> disks;
+  DevQ<Queue> cdrw;
+  DevQ<Queue> printers;
+  Queue RQ;
+  PCB* current;
+  int PID;
+  int slice;
+  float systemTime;
+  int systemTotal;
+
+  void terminate(){ // returns the current process' CPU usage stats and removes it from the system (deleted)
     float average = current->cpuTime / current->totalCpu;
     std::cout << "  ## PID: " << current->pid 
               << "\n  ## Average CPU burst: " << (current->totalCpu==0 ? 0 : average)
@@ -182,6 +193,26 @@ public:
       std::cout << " ### CPU is idle.\n";
 
     return systemCall();
+  }
+  
+  void timer(char c){ // asks for time, updates process time and system wide time
+    int n = inputInt(slice," ### How much time has passed since last slice? ");
+    if(n==slice && (c == 'd'|| c == 'c' || c == 'p')){
+      std::cout<<" ### The timeslice for this process is over.\n";
+      current->cpuTime += n;
+      systemTime += n;
+      RQ.enq(current);
+      current = nullptr;
+      return cpuStatus();
+    } else if(c == 'd' || c == 'c' || c == 'p' || c == 't') {
+      current->cpuTime += n;
+      current->totalCpu++;
+      systemTime += n;
+      systemTotal++;
+    } else {
+      current->cpuTime += n;
+      systemTime += n;
+    }
   }
 
   void snapShot(){ // calls print for specified devices
@@ -209,38 +240,6 @@ public:
     return systemCall();
   }
 
-  void timer(char c){ // asks for time, updates process time and system wide time
-    int n = inputInt(slice," ### How much time has passed since last slice? ");
-    if(n==slice && (c == 'd'|| c == 'c' || c == 'p')){
-      std::cout<<" ### The timeslice for this process is over.\n";
-      current->cpuTime += n;
-      current->totalCpu++;
-      systemTime += n;
-      systemTotal++;
-      RQ.enq(current);
-      current = nullptr;
-      return cpuStatus();
-    } else if(c == 'd' || c == 'c' || c == 'p' || c == 't') {
-      current->cpuTime += n;
-      current->totalCpu++;
-      systemTime += n;
-      systemTotal++;
-    } else {
-      current->cpuTime += n;
-      systemTime += n;
-    }
-  }
-  
- private:
-  DevQ<FSdisk> disks;
-  DevQ<Queue> cdrw;
-  DevQ<Queue> printers;
-  Queue RQ;
-  PCB* current;
-  int PID;
-  int slice;
-  float systemTime;
-  int systemTotal;
 
 };
 #endif
